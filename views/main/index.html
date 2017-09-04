@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>博客</title>
+    <link rel="stylesheet" href="/public/css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="/public/css/common/common.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+</head>
+<body>
+<nav class="navbar navbar-fixed-top navbar-inverse">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">首页</a></li>
+                <li><a href="#HTML5">HTML5</a></li>
+                <li><a href="#CSS">CSS</a></li>
+            </ul>
+        </div><!-- /.nav-collapse -->
+    </div><!-- /.container -->
+</nav><!-- /.navbar -->
+
+<div class="container">
+
+    <div class="row row-offcanvas row-offcanvas-right">
+
+        <div class="col-xs-12 col-sm-9">
+            <p class="pull-right visible-xs">
+                <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
+            </p>
+            <div class="jumbotron">
+                <h1>Hello, world!</h1>
+                <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap. Try some responsive-range viewport sizes to see it in action.</p>
+                <button class="btn btn-lg btn-primary">阅读全文</button>
+            </div>
+        </div><!--/.col-xs-12.col-sm-9-->
+
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+            <div class="login-item loginCon" {% if userInfo.id %} style="display: none;" {%endif%}>
+                <h4 class="form-signin-heading">登录</h4>
+                <label for="inputEmail" class="">用户名：</label>
+                <input type="text" id="inputEmail" name="username" class="form-control" placeholder="请输入用户名" required autofocus>
+                <label for="inputPassword" class="">密码：</label>
+                <input type="password" id="inputPassword" name="password" class="form-control" placeholder="请输入密码" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">登&nbsp;录</button>
+                <div class="regist">还没注册？<a href="javascript:void(0);" onclick="js_regist()">马上注册</a></div>
+                <div class="colWarning"></div>
+            </div>
+            <div class="login-item registCon" style="display: none;">
+                <h4 class="form-signin-heading">注册</h4>
+                <label for="inputEmail" class="">用户名：</label>
+                <input type="text" name="username" class="form-control" placeholder="请输入用户名" required autofocus>
+                <label for="inputPassword" class="">密码：</label>
+                <input type="password" name="password" class="form-control" placeholder="请输入密码" required>
+                <label for="inputPassword" class="">确认：</label>
+                <input type="password" name="okpassword" class="form-control" placeholder="请输入确认密码" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">注&nbsp;册</button>
+                <div class="regist">已有账号？<a href="javascript:void(0);" onclick="js_login()">马上登录</a></div>
+                <div class="colWarning"></div>
+            </div>
+            <div class="login-item userinfoCon" {% if !userInfo.id %} style="display: none;" {%endif%}>
+                <h4 class="form-signin-heading">用户信息</h4>
+                <label class="user">用户名：<span>{{userInfo.username}}</span></label>
+                <div>您好，欢迎光临我的博客</div>
+                <!--<div>你好，你是管理员<a href="">你可以点击这里进入管理</a></div>-->
+                <div class="regist"><a href="javascript:void(0);" onclick="js_pullOut()">退出</a></div>
+            </div>
+            <div class="sidebar-module">
+                <h4>社区</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">社区链接</a></li>
+                    <li><a href="#">社区链接</a></li>
+                    <li><a href="#">社区链接</a></li>
+                    <li><a href="#">社区链接</a></li>
+                </ol>
+            </div>
+            </div>
+        </div><!--/.sidebar-offcanvas-->
+    </div><!--/row-->
+
+    <hr>
+
+    <footer>
+        <p>&copy; Company 2014</p>
+    </footer>
+<script src="/public/js/jquery-3.2.1.min.js"></script>
+<script src="/public/js/bootstrap.min.js"></script>
+<script src="/public/js/main/index.js"></script>
+</div>
+</body>
+</html>
