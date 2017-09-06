@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>博客</title>
-    <link rel="stylesheet" href="/public/css/common/bootstrap.min.css">
-    <link rel="stylesheet" href="/public/css/common/common.css">
-    <link rel="stylesheet" href="/public/css/main.css">
-</head>
-<body>
+{% extends '../common/layout.html'%}
+{% block title %}首页{% endblock %}
+{% block css %}
+{% parent %}
+<link rel="stylesheet" href="/public/css/main.css">
+{% endblock %}
+{% block content %}
 <nav class="navbar navbar-fixed-top navbar-inverse">
     <div class="container">
         <div class="navbar-header">
@@ -29,7 +26,7 @@
     </div><!-- /.container -->
 </nav><!-- /.navbar -->
 
-<div class="container">
+<div class="container index-con">
 
     <div class="row row-offcanvas row-offcanvas-right">
 
@@ -70,8 +67,11 @@
             <div class="login-item userinfoCon" {% if !userInfo.id %} style="display: none;" {%endif%}>
                 <h4 class="form-signin-heading">用户信息</h4>
                 <label class="user">用户名：<span>{{userInfo.username}}</span></label>
-                <div>您好，欢迎光临我的博客</div>
-                <!--<div>你好，你是管理员<a href="">你可以点击这里进入管理</a></div>-->
+                {% if !userInfo.isAdmin %}
+                    <div>您好，欢迎光临我的博客</div>
+                {% else %}
+                    <div>你好，你是管理员<a href="/admin">你可以点击这里进入管理</a></div>
+                {% endif %}
                 <div class="regist"><a href="javascript:void(0);" onclick="js_pullOut()">退出</a></div>
             </div>
             <div class="sidebar-module">
@@ -92,9 +92,9 @@
     <footer>
         <p>&copy; Company 2014</p>
     </footer>
-<script src="/public/js/jquery-3.2.1.min.js"></script>
-<script src="/public/js/bootstrap.min.js"></script>
-<script src="/public/js/main/index.js"></script>
 </div>
-</body>
-</html>
+{% endblock %}
+{% block script %}
+{% parent %}
+<script src="/public/js/main/index.js"></script>
+{% endblock %}

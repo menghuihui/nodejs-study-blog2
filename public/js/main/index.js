@@ -39,9 +39,8 @@ $(function() {
             success:function (result) {
                 $loginCon.find('.colWarning').html(result.message);
                 if (!result.code){
-                    console.log(result.data.username);
                     $(".user").find('span').html(result.data.username);
-                    js_pullIn();
+                    window.location.reload();
                 }
             }
         })

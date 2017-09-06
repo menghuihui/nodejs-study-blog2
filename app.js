@@ -15,6 +15,8 @@ var mongoose = require('mongoose');
 var Cookies = require('cookies');
 //创建APP应用=> NodeJS Http.createServer();
 var app = express();
+
+var User = require('./models/user');
 //静态文件处理，通过/public来截取
 app.use('/public',express.static(__dirname + '/public'));
 
@@ -26,9 +28,16 @@ app.use(function (req,res,next) {
     if (req.cookies.get('userInfo')){
         try{
             req.userInfo = JSON.parse(req.cookies.get('userInfo'));
+
+            //获取当前登录用户信息
+            User.findById(req.userInfo.id).then(function (userInfo) {
+                req.userInfo.isAdmin = Boolean(userInfo.isAdmin);
+                next();
+            })
         }catch (e){}
+    }else{
+        next();
     }
-    next();
 })
 
 app.engine('html',swig.renderFile);
