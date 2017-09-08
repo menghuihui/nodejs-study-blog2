@@ -18,7 +18,7 @@
                 {{message}}
             </div>
             <div class="panel-footer">
-                <a href="javascript:window.history.back();">返回上一步</a>
+                <a href="{% if !hrefurl %}javascript:window.history.back();{% else %}{{hrefurl}}{% endif %}">返回上一步</a>
             </div>
         </div>
     </div>

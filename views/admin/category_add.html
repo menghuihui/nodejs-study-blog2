@@ -14,11 +14,11 @@
 <form method="post">
     <div class="form-group">
         <label for="name">分类名称：</label>
-        <input type="text" class="form-control" placeholder="请输入分类名称" name="name">
+        <input type="text" class="form-control" placeholder="请输入分类名称" name="name" value="{{categorys.name}}">
     </div>
     <div class="form-group">
         <label for="url">分类路径：</label>
-        <input type="text" class="form-control" placeholder="请输入分类路径" name="url">
+        <input type="text" class="form-control" placeholder="请输入分类路径" name="url" value="{{categorys.url}}">
     </div>
     <button type="submit" class="btn btn-default">保存</button>
 </form>

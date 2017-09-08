@@ -47,7 +47,7 @@ router.get('/user',function (req,res,next) {
         page = Math.min(page,pages);
         //取值不能小于1
         page = Math.max(page,1);
-        User.find().limit(limit).skip(skip).then(function (users) {
+        User.find().sort({_id:1}).limit(limit).skip(skip).then(function (users) {
             res.render('admin/user_index',{
                 userInfo : req.userInfo,
                 users: users,
@@ -118,5 +118,67 @@ router.post('/category/add',function (req,res,next) {
             })
         });
     }
+})
+
+/**
+ * 分类修改
+ * */
+router.get('/category/edit',function (req,res,next) {
+    var _id = req.query.id;
+    Category.findById(_id,function (err,categorys) {
+        if(!err){
+            console.log(categorys)
+            res.render('admin/category_add',{
+                userInfo : req.userInfo,
+                categorys:  categorys
+            });
+        }
+    })
+
+})
+/**
+ * 分类保存
+ * */
+router.post('/category/edit',function (req,res,next) {
+    var _id = req.query.id;
+    var name =  req.body.name;
+    var nameurl = req.body.url;
+    if( !name || !nameurl){
+        res.render('admin/error',{
+            error:1,
+            message:'输入不能为空'
+        })
+    }else{
+        //保存分类列表的信息到数据库中
+        var category = {
+            name :name,
+            url : nameurl
+        };
+        Category.update({_id:_id},category,function (err) {
+            if (!err){
+                res.render('admin/error',{
+                    error:0,
+                    message:'保存成功',
+                    hrefurl:'../category'
+                })
+            }
+        })
+    }
+
+})
+/**
+ * 分类删除
+ * */
+router.get('/category/del',function (req,res,next) {
+    var _id = req.query.id;
+    Category.findOneAndRemove({ _id: _id }, function (err) {
+        if (!err){
+            res.render('admin/error',{
+                error:0,
+                message:'删除成功',
+                hrefurl:'../category'
+            })
+        }
+    })
 })
 module.exports = router;

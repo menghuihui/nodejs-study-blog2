@@ -1,12 +1,14 @@
 
 var express = require('express');
 var router = express.Router();
+var Category = require('../models/Category');
 
 router.get('/',function (req,res,next) {
-    console.log(req.userInfo);
-    res.render('main/index',{
-
-    });
+    Category.find().then(function (result) {
+        res.render('main/index',{
+            types: result
+        });
+    })
 })
 
 module.exports = router;
