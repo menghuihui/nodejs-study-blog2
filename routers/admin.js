@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/User');
 var Category = require('../models/Category');
+var Content = require('../models/Content');
 router.use(function (req,res,next) {
     if(!req.userInfo.isAdmin){
         res.send('对不起，只有管理员才可以进入后台管理 ');
@@ -47,7 +48,7 @@ router.get('/user',function (req,res,next) {
         page = Math.min(page,pages);
         //取值不能小于1
         page = Math.max(page,1);
-        User.find().sort({_id:1}).limit(limit).skip(skip).then(function (users) {
+        User.find().limit(limit).skip(skip).then(function (users) {
             res.render('admin/user_index',{
                 userInfo : req.userInfo,
                 users: users,
@@ -74,7 +75,7 @@ router.get('/category',function (req,res,next) {
         page = Math.min(page,pages);
         //取值不能小于1
         page = Math.max(page,1);
-        Category.find().limit(limit).skip(skip).then(function (categorys) {
+        Category.find().sort({_id:-1}).limit(limit).skip(skip).then(function (categorys) {
             res.render('admin/category',{
                 userInfo : req.userInfo,
                 categorys: categorys,
@@ -95,7 +96,7 @@ router.get('/category/add',function (req,res,next) {
     });
 })
 /**
- * 分类保存
+ * 分类添加
  * */
 router.post('/category/add',function (req,res,next) {
     var name =  req.body.name;
@@ -137,7 +138,7 @@ router.get('/category/edit',function (req,res,next) {
 
 })
 /**
- * 分类保存
+ * 分类修改
  * */
 router.post('/category/edit',function (req,res,next) {
     var _id = req.query.id;
@@ -180,5 +181,73 @@ router.get('/category/del',function (req,res,next) {
             })
         }
     })
+})
+
+
+/**
+ * 分类管理
+ * */
+router.get('/content',function (req,res,next) {
+    var page = Number(req.query.page || 1);
+    var limit = 2;
+    var skip = (page - 1)*limit;
+    var pages = 0;
+    Content.count().then(function (count) {
+        //计算总页数
+        pages = Math.ceil(count / limit);
+        //取值不能超过pages
+        page = Math.min(page,pages);
+        //取值不能小于1
+        page = Math.max(page,1);
+        Content.find().sort({_id:-1}).limit(limit).skip(skip).populate('category').then(function (contents) {
+            console.log(contents)
+            res.render('admin/content',{
+                userInfo : req.userInfo,
+                contents: contents,
+
+                page:page,//当前页数
+                pages: pages//总页数
+
+            });
+        })
+    })
+})
+/**
+ * 添加内容
+ * */
+router.get('/content/add',function (req,res,next) {
+    Category.find().sort({_id:-1}).then(function (categories) {
+        res.render('admin/content_add',{
+            userInfo : req.userInfo,
+            categories : categories
+        });
+    })
+})
+/**
+ * 分类添加
+ * */
+router.post('/content/add',function (req,res,next) {
+    var profile =  req.body.profile;
+    var title =  req.body.title;
+    var con =  req.body.con;
+    if( !profile || !title || !con){
+        res.render('admin/error',{
+            error:1,
+            message:'输入不能为空'
+        })
+    }else{
+        //保存分类列表的信息到数据库中
+        new Content({
+            category:req.body.category,
+            profile : profile,
+            title : title,
+            con : con
+        }).save().then(function () {
+            res.render('admin/error',{
+                error:0,
+                message:'保存成功'
+            })
+        });
+    }
 })
 module.exports = router;
