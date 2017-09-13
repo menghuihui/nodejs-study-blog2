@@ -6,7 +6,8 @@ var Category = require('../models/Category');
 router.get('/',function (req,res,next) {
     Category.find().then(function (result) {
         res.render('main/index',{
-            types: result
+            types: result,
+            userInfo : req.userInfo
         });
     })
 })

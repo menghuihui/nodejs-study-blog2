@@ -185,7 +185,7 @@ router.get('/category/del',function (req,res,next) {
 
 
 /**
- * 分类管理
+ * 内容管理
  * */
 router.get('/content',function (req,res,next) {
     var page = Number(req.query.page || 1);
@@ -249,5 +249,74 @@ router.post('/content/add',function (req,res,next) {
             })
         });
     }
+})
+
+/**
+ * 内容修改
+ * */
+router.get('/content/edit',function (req,res,next) {
+    var _id = req.query.id;
+    Content.findById(_id,function (err,contents) {
+        Category.find().sort({_id:-1}).then(function (categories) {
+            console.log(contents);
+            if (!err) {
+                console.log(contents)
+                res.render('admin/content_add', {
+                    userInfo: req.userInfo,
+                    contents: contents,
+                    categories:categories
+                });
+            }
+        })
+    })
+
+})
+/**
+ * 内容修改保存
+ * */
+router.post('/content/edit',function (req,res,next) {
+    var _id = req.query.id;
+    var profile =  req.body.profile;
+    var title =  req.body.title;
+    var con =  req.body.con;
+    if( !profile || !title || !con){
+        res.render('admin/error',{
+            error:1,
+            message:'输入不能为空'
+        })
+    }else{
+        //保存分类列表的信息到数据库中
+        var content = {
+            category:req.body.category,
+            profile : profile,
+            title : title,
+            con : con
+        };
+        Content.update({_id:_id},content,function (err) {
+            if (!err){
+                res.render('admin/error',{
+                    error:0,
+                    message:'保存成功',
+                    hrefurl:'../content'
+                })
+            }
+        })
+    }
+
+})
+/**
+ * 内容删除
+ * */
+router.get('/content/del',function (req,res,next) {
+    var _id = req.query.id;
+    Content.findOneAndRemove({ _id: _id }, function (err) {
+        if (!err){
+            res.render('admin/error',{
+                error:0,
+                message:'删除成功',
+                hrefurl:'../content'
+            })
+        }
+    })
 })
 module.exports = router;

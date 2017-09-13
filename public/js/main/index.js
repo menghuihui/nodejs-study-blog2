@@ -37,9 +37,10 @@ $(function() {
             },
             dataType:'json',
             success:function (result) {
+                console.log(result);
                 $loginCon.find('.colWarning').html(result.message);
+                console.log(result.code);
                 if (!result.code){
-                    $(".user").find('span').html(result.data.username);
                     window.location.reload();
                 }
             }

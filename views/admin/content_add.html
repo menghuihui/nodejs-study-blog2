@@ -14,20 +14,20 @@
 <form method="post">
     <select name="category" id="category" class="form-control">
         {% for category in categories%}
-        <option value="{{category.id}}">{{category.name}}</option>
+        <option value="{{category.id}}" {% if contents.category.id == category.id%} selected {% endif%}>{{category.name}}</option>
         {% endfor %}
     </select>
     <div class="form-group">
         <label for="name">内容标题：</label>
-        <input type="text" class="form-control" placeholder="请输入分类名称" name="title" value="{{content.name}}">
+        <input type="text" class="form-control" placeholder="请输入分类名称" name="title" value="{{contents.title}}">
     </div>
     <div class="form-group">
         <label for="profile">内容简介：</label>
-        <textarea class="form-control" name="profile" id="profile" cols="30" rows="10" placeholder="请输入内容简介">{{content.profile}}</textarea>
+        <textarea class="form-control" name="profile" id="profile" cols="30" rows="10" placeholder="请输入内容简介">{{contents.profile}}</textarea>
     </div>
     <div class="form-group">
         <label for="url">内容：</label>
-        <textarea class="form-control" name="con" id="con" cols="50" rows="10" placeholder="请输入内容">{{content.con}}</textarea>
+        <textarea class="form-control" name="con" id="con" cols="50" rows="10" placeholder="请输入内容">{{contents.con}}</textarea>
     </div>
     <button type="submit" class="btn btn-default">保存</button>
 </form>
